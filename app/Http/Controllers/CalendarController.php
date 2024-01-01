@@ -10,7 +10,9 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Utils\ErrorResponseHelper;
 use App\Utils\JWTHelper;
+use App\Models\XXX;
 
+use App\Utils\BodyHelper;
 
 
 class CalendarController extends Controller
@@ -31,19 +33,23 @@ class CalendarController extends Controller
     public function booking(Request $request)
     {
         try {
-            $msg = "xx123";
-            // $data["res"] = "ok";
-            $payload = array("data" => "xx123", "exp" => 123);
-            $token = JWTHelper::encode($payload);
-            $data["token"] =  $token;
+            $body = $request->input();
+            $body = BodyHelper::toSnake($body);
+            $res = XXX::create($body);
+            return response()->json($res);
+            // $msg = "xx123";
+            // // $data["res"] = "ok";
+            // $payload = array("data" => "xx123", "exp" => 123);
+            // $token = JWTHelper::encode($payload);
+            // $data["token"] =  $token;
             
-            $tokenObj = JWTHelper::decode($token);
-            $data["p"] = $tokenObj->getPayload();
-            $v = JWTHelper::verify($tokenObj);
-            $data["v"] =  $v;
+            // $tokenObj = JWTHelper::decode($token);
+            // $data["p"] = $tokenObj->getPayload();
+            // $v = JWTHelper::verify($tokenObj);
+            // $data["v"] =  $v;
 
-            $resp = ErrorResponseHelper::success($msg, $data);
-            return $resp;
+            // $resp = ErrorResponseHelper::success($msg, $data);
+            // return $resp;
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());

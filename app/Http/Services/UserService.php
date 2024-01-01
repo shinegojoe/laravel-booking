@@ -3,16 +3,16 @@ namespace App\Http\Services;
 use App\Models\User;
 use App\Utils\TableNameString;
 use Illuminate\Support\Facades\DB;
+use App\Utils\BodyHelper;
+Use App\Entity\User as UserEntity;
 
 
 
 class UserService {
 
-    // private string $userTable;
     private string $userTable;
     private string $bookingTable;
     public function __construct(TableNameString $tableNameString) {
-        // userTable = TableNameString::$user;
        $this->userTable = $tableNameString::user;
        $this->bookingTable = $tableNameString::booking;
     }
@@ -35,7 +35,11 @@ class UserService {
         return $data;
     }
 
-    public function transactionCreate(User $body) {
 
+    public function create(UserEntity $body) {
+        $body = (array) $body;
+        $body = BodyHelper::toSnake($body);
+        $data = User::create($body);
+        return $data;
     }
 }

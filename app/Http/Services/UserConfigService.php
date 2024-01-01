@@ -25,6 +25,11 @@ class UserConfigService {
         UserConfig::where('user_id', $uId)->update(['is_default_coach'=>$value]);
     }
 
+    public function create(array $userConfig) {
+        $res = UserConfig::create($userConfig);
+        return $res;
+    }
+
 
 
 }
