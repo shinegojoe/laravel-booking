@@ -41,4 +41,16 @@ class BookingService {
         return $res;
     }
 
+    public function coachCalendarData(string $uId) {
+
+    }
+
+    public function customerCalendarData(string $uId) {
+
+    }
+
+    public function bookingCalendarData(string $userId) {
+        
+    }
+
 }

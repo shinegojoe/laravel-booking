@@ -33,30 +33,12 @@ class CalendarController extends Controller
     public function booking(Request $request)
     {
         try {
-            $body = $request->input();
-            $body = BodyHelper::toSnake($body);
-            $res = XXX::create($body);
-            
-            // return response()->json($res->toArray());
-            // return response()->json($res, 200, [], JSON_FORCE_OBJECT | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            $resp = AppResponse::successResp($res);
-            return $resp;
-            // return response()->json($res);
-            // $msg = "xx123";
-            // // $data["res"] = "ok";
-            // $payload = array("data" => "xx123", "exp" => 123);
-            // $token = JWTHelper::encode($payload);
-            // $data["token"] =  $token;
-            
-            // $tokenObj = JWTHelper::decode($token);
-            // $data["p"] = $tokenObj->getPayload();
-            // $v = JWTHelper::verify($tokenObj);
-            // $data["v"] =  $v;
-
-            // $resp = ErrorResponseHelper::success($msg, $data);
-            // return $resp;
-
+            $courseId = $request->query("courseId");
+            $defaultConfig = $this->defaultConfigService->getByCourseId(courseId);
+            $course = $this->courseService->findById($courseId);
+            $bookingList = $this->bookingService->bookingCalendarData($courseId);
+            $res = array("defaultConfig"=>$defaultConfig, "bookingList"=>$bookingList);
+            return AppResponse::successResp($res);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -66,6 +48,9 @@ class CalendarController extends Controller
     public function coachCalendar(Request $request)
     {
         try {
+            $uId = $request->query("uId");
+            $data = $this->bookingService->coachCalendarData($uId);
+            return AppResponse::successResp($data);
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -76,6 +61,9 @@ class CalendarController extends Controller
     public function customerCalendar(Request $request)
     {
         try {
+            $uId = $request->query("uId");
+            $data = $this->bookingService->customerCalendarData($uId);
+            return AppResponse::successResp($data);
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
