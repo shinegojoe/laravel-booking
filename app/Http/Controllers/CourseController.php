@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Services\CourseService;
 use App\Http\Services\DefaultConfigService;
 use App\Utils\AppResponse;
+use App\Exceptions\GlobalException;
 
 
 class CourseController extends Controller {
@@ -32,7 +33,7 @@ class CourseController extends Controller {
             return AppResponse::successResp($res);
         } catch(Exception $e) {
             DB::rollBack();
-            throw new Exception($e->getMessage());
+            throw new GlobalException($e->getMessage());
         }
     }
 
@@ -44,7 +45,7 @@ class CourseController extends Controller {
             return AppResponse::successResp($data);
 
         } catch(Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new GlobalException($e->getMessage());
         }
     }
 
@@ -56,7 +57,7 @@ class CourseController extends Controller {
             return AppResponse::successResp($data);
 
         } catch(Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new GlobalException($e->getMessage());
         }
     }
 
@@ -67,7 +68,7 @@ class CourseController extends Controller {
             return AppResponse::successResp($data);
 
         } catch(Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new GlobalException($e->getMessage());
         }
     }
 
@@ -78,7 +79,7 @@ class CourseController extends Controller {
             return AppResponse::successResp($data);
 
         } catch(Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new GlobalException($e->getMessage());
         }
     }
 
