@@ -3,8 +3,10 @@ namespace App\Utils;
 
 use App\Utils\ErrorCode;
 use Illuminate\Support\Str;
+use JsonSerializable;
 
-class ErrorInfo {
+
+class ErrorInfo  implements JsonSerializable {
 
     private $code;
     private $message;
@@ -13,6 +15,14 @@ class ErrorInfo {
         $this->code = $code;
         $this->message = ErrorCode::getMsg($code);
         $this->detail = $detail;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'code' => $this->code,
+            'message' => $this->message,
+            'detail' => $this->detail,
+        ];
     }
 
 }

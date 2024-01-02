@@ -13,7 +13,8 @@ use App\Http\Controllers\PaymentHistoryController;
 use App\Http\Controllers\SyncCalendarController;
 use App\Http\Controllers\UserConfigController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\XXXController;
+use App\Http\Middleware\ValidateToken;
 
 
 /*
@@ -31,13 +32,6 @@ use App\Http\Controllers\UserController;
 //     return $request->user();
 // });
 
-// Route::apiResource('/test123', [Controller123::class, 'index']);
-Route::get('/test123', [Controller123::class, 'test2']);
-Route::post('/testPost', [Controller123::class, 'testPost']);
-
-Route::prefix('xxx')->group(function () {
-    Route::get('/users', [Controller123::class, "test2"]);
-});
 
 const booking = 'booking';
 const calendar = 'calendar';
@@ -51,28 +45,18 @@ const userConfig = 'userConfig';
 const user = 'user';
 
 
-
-// Verb	URI	Action	Route Name
-// GET	/photos	index	photos.index
-// GET	/photos/create	create	photos.create
-// POST	/photos	store	photos.store
-// GET	/photos/{photo}	show	photos.show
-// GET	/photos/{photo}/edit	edit	photos.edit
-// PUT/PATCH	/photos/{photo}	update	photos.update
-// DELETE	/photos/{photo}	destroy	photos.destroy
-
 // ----- booking -----
 Route::prefix(booking)->group(function () {
-    Route::post('/create', [BookginController::class, "create"]);
-    Route::post('/bookingHistory', [BookginController::class, "bookingHistory"]);
-    Route::get('/customerHistory', [BookginController::class, "customerHistory"]);
-    Route::put('/update', [BookginController::class, "update"]);
+    Route::post('/create', [BookginController::class, "create"])->middleware(ValidateToken::class);
+    Route::post('/bookingHistory', [BookginController::class, "bookingHistory"])->middleware(ValidateToken::class);
+    Route::get('/customerHistory', [BookginController::class, "customerHistory"])->middleware(ValidateToken::class);
+    Route::put('/update', [BookginController::class, "update"])->middleware(ValidateToken::class);
 });
 
 
 // ----- calendar -----
 Route::prefix(calendar)->group(function () {
-    Route::get('/booking', [CalendarController::class, "booking"]);
+    Route::post('/booking', [CalendarController::class, "booking"])->middleware(ValidateToken::class);
     Route::get('/coach', [CalendarController::class, "coach"]);
     Route::get('/customer', [CalendarController::class, "customer"]);
 });
@@ -80,26 +64,26 @@ Route::prefix(calendar)->group(function () {
 
 // ----- course ------
 Route::prefix(course)->group(function () {
-    Route::post('/create', [CourseController::class, "create"]);
-    Route::get('/listByCoachId', [CourseController::class, "listByCoachId"]);
-    Route::get('/listByClientId', [CourseController::class, "listByClientId"]);
-    Route::patch('/deactivate', [CourseController::class, "deactivate"]);
-    Route::patch('/setActivate', [CourseController::class, "setActivate"]);
+    Route::post('/create', [CourseController::class, "create"])->middleware(ValidateToken::class);
+    Route::get('/listByCoachId', [CourseController::class, "listByCoachId"])->middleware(ValidateToken::class);
+    Route::get('/listByClientId', [CourseController::class, "listByClientId"])->middleware(ValidateToken::class);
+    Route::patch('/deactivate', [CourseController::class, "deactivate"])->middleware(ValidateToken::class);
+    Route::patch('/setActivate', [CourseController::class, "setActivate"])->middleware(ValidateToken::class);
 
 });
 
 // ----- courseRegistraction
 Route::prefix(courseRegistraction)->group(function () {
-    Route::post('/getByUIdAndCourseId', [CourseRegistartionController::class, "getByUIdAndCourseId"]);
-    Route::get('/listByUId', [CourseRegistartionController::class, "listByUId"]);
-    Route::get('/customerListVO', [CourseRegistartionController::class, "customerListVO"]);
+    Route::post('/getByUIdAndCourseId', [CourseRegistartionController::class, "getByUIdAndCourseId"])->middleware(ValidateToken::class);
+    Route::get('/listByUId', [CourseRegistartionController::class, "listByUId"])->middleware(ValidateToken::class);
+    Route::get('/customerListVO', [CourseRegistartionController::class, "customerListVO"])->middleware(ValidateToken::class);
 });
 
 
 // ----- default config -----
 Route::prefix(defaultConfig)->group(function () {
-    Route::get('/getByCourseId', [DefaultConfigController::class, "getByCourseId"]);
-    Route::put('/update', [DefaultConfigController::class, "update"]);
+    Route::get('/getByCourseId', [DefaultConfigController::class, "getByCourseId"])->middleware(ValidateToken::class);
+    Route::put('/update', [DefaultConfigController::class, "update"])->middleware(ValidateToken::class);
 });
 
 // ----- login -----
@@ -112,27 +96,32 @@ Route::prefix(login)->group(function () {
 
 // ----- paymentHistory -----
 Route::prefix(paymentHistory)->group(function () {
-    Route::post('/create', [PaymentHistoryController::class, "create"]);
-    Route::put('/update', [PaymentHistoryController::class, "update"]);
-    Route::post('/listByCourseIdAndUId', [PaymentHistoryController::class, "listByCourseIdAndUId"]);
+    Route::post('/create', [PaymentHistoryController::class, "create"])->middleware(ValidateToken::class);
+    Route::put('/update', [PaymentHistoryController::class, "update"])->middleware(ValidateToken::class);
+    Route::post('/listByCourseIdAndUId', [PaymentHistoryController::class, "listByCourseIdAndUId"])->middleware(ValidateToken::class);
 });
 
 // ----- syncCanendar -----
 Route::prefix(syncCalendar)->group(function () {
-    Route::get('/syncCalendar', [SyncCalendarController::class, "syncCalendar"]);
+    Route::get('/syncCalendar', [SyncCalendarController::class, "syncCalendar"])->middleware(ValidateToken::class);
 });
 
 // ----- userConfig -----
 Route::prefix(userConfig)->group(function () {
-    Route::patch('/update', [UserConfigController::class, "update"]);
-    Route::patch('/updateIsSyncCalendar', [UserConfigController::class, "updateIsSyncCalendar"]);
-    Route::patch('/updateIsDefaultCoach', [UserConfigController::class, "updateIsDefaultCoach"]);
+    Route::patch('/update', [UserConfigController::class, "update"])->middleware(ValidateToken::class);
+    Route::patch('/updateIsSyncCalendar', [UserConfigController::class, "updateIsSyncCalendar"])->middleware(ValidateToken::class);
+    Route::patch('/updateIsDefaultCoach', [UserConfigController::class, "updateIsDefaultCoach"])->middleware(ValidateToken::class);
 
 });
 
 // ----- user -----
 Route::prefix(user)->group(function () {
-    Route::get('/listByCourseId', [UserController::class, "listByCourseId"]);
-    Route::get('/userVO', [UserController::class, "userVO"]);
+    Route::get('/listByCourseId', [UserController::class, "listByCourseId"])->middleware(ValidateToken::class);
+    Route::get('/userVO', [UserController::class, "userVO"])->middleware(ValidateToken::class);
 
 });
+
+// Route::prefix("xxx")->group(function () {
+//     Route::get('/test123', [XXXController::class, "test123"])->middleware(ValidateToken::class);
+
+// });

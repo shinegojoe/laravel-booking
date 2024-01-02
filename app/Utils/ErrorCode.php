@@ -3,15 +3,15 @@ namespace App\Utils;
 
 class ErrorCode
 {
-    public static const NOT_FOUND = 999;
-    public static const NO_AFFECTED = 998;
-    public static const ALREADY_EXISTS = 997;
-    public static const ROLL_BACK = 996;
-    public static const AUTHENTICATION_FAILED = 995;
-    public static const BOOKING_FAILED = 994;
-    public static const GOOGLE_AUTH_CODE_ERROR = 993;
-    public static const TOKEN_FAILED = 992;
-    public static const GOOGLE_ADD_EVENT_FAILED = 991;
+    public static  $NOT_FOUND = 999;
+    public static  $NO_AFFECTED = 998;
+    public static  $ALREADY_EXISTS = 997;
+    public static  $ROLL_BACK = 996;
+    public static  $AUTHENTICATION_FAILED = 995;
+    public static  $BOOKING_FAILED = 994;
+    public static  $GOOGLE_AUTH_CODE_ERROR = 993;
+    public static  $TOKEN_FAILED = 992;
+    public static  $GOOGLE_ADD_EVENT_FAILED = 991;
 
     public static function getMsg(int $code) {
         $map[999] = "NOT_FOUND";
