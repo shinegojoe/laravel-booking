@@ -36,4 +36,9 @@ class CourseRegistrationService {
         return $data;
     }
 
+    public function create(array $data) {
+        $res = CourseRegistration::create($data);
+        return $res;
+    }
+
 }
