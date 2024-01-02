@@ -8,6 +8,8 @@ use App\Exceptions\GlobalException;
 use App\Http\Services\BookingService;
 use App\Http\Services\UserConfigService;
 use App\Http\Services\CourseService;
+use App\Utils\AppResponse;
+
 
 class SyncCalendarController extends Controller {
 
@@ -31,7 +33,7 @@ class SyncCalendarController extends Controller {
             $userConfig =  $this->userConfigService->findOneByUId($uId);
             $course = $this->courseService->findById($courseId);
             $data = $course;
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage(), $e->getCode(), $e);

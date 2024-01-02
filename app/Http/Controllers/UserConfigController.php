@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\GlobalException;
 use App\Http\Services\UserConfigService;
+use App\Utils\AppResponse;
+
 
 class UserConfigController extends Controller {
 
@@ -24,8 +26,7 @@ class UserConfigController extends Controller {
            
             $userConfig = $this->userConfigService->updateIsSyncCalendar($uId, $isSyncCalendar);
             Log::info($userConfig);
-
-            return response()->json($userConfig);
+            return AppResponse::successResp($userConfig);
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());
         }            
@@ -38,11 +39,8 @@ class UserConfigController extends Controller {
         try {
             $uId = $request->query("uId");
             $isDefaultCoach = $request->input("isDefaultCoach");
-           
-            $this->userConfigService->updateIsDefaultCoach($uId, $isDefaultCoach);
-            // Log::info($userConfig);
-
-            return response()->json();
+            $res = $this->userConfigService->updateIsDefaultCoach($uId, $isDefaultCoach);
+            return AppResponse::successResp($res);
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());
         }       

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use App\Entity\User as UserEntity;
 use App\Entity\UserConfig as UserConfigEntity;
 use App\VO\UserVO;
+use App\Utils\AppResponse;
+
 
 
 
@@ -65,14 +67,14 @@ class LoginController extends Controller {
                 $token = JWTHelper::encode($user);
                 $userVO = new UserVO($user, $userConfig, $token, 0);
                 DB::commit();
-                return response()->json($userVO);
+                return AppResponse::successResp($userVO);
 
             } else {
                 $user = $this->userService->findByEmail($email);
                 $userConfig = $this->userConfigService->findOneByUId($user["id"]);
                 $token = JWTHelper::encode($user);
                 $userVO = new UserVO($user, $userConfig, $token, 0);
-                return response()->json($userVO);
+                return AppResponse::successResp($userVO);
 
             }
             // return response()->json($tokenResp);

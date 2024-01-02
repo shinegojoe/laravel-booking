@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Http\Services\CourseService;
 use App\Http\Services\DefaultConfigService;
+use App\Utils\AppResponse;
+
 
 class CourseController extends Controller {
     
@@ -25,9 +27,9 @@ class CourseController extends Controller {
             $course->userId = $uId;
             $courseRes = $this->courseService->create($course);
             $defaultConfig["courseId"] = $courseRes["id"];
-            $this->defaultConfigService->create($defaultConfig);
+            $res = $this->defaultConfigService->create($defaultConfig);
             DB::commit();
-            return response()->json();
+            return AppResponse::successResp($res);
         } catch(Exception $e) {
             DB::rollBack();
             throw new Exception($e->getMessage());
@@ -39,7 +41,7 @@ class CourseController extends Controller {
         try {
             $uId = $request->query("uId");
             $data = $this->courseService->listByCoachId($uId);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new Exception($e->getMessage());
@@ -51,7 +53,7 @@ class CourseController extends Controller {
         try {
             $uId = $request->query("uId");
             $data = $this->courseService->listByClientId($uId);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new Exception($e->getMessage());
@@ -62,7 +64,7 @@ class CourseController extends Controller {
         try {
             $body = $request->input("");
             $data = $this->courseService->update($body);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new Exception($e->getMessage());
@@ -73,7 +75,7 @@ class CourseController extends Controller {
         try {
             $body = $request->input("");
             $data = $this->courseService->update($body);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new Exception($e->getMessage());

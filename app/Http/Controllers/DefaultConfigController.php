@@ -8,6 +8,8 @@ use App\Http\Services\CourseService;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\GlobalException;
 use Exception;
+use App\Utils\AppResponse;
+
 
 
 class DefaultConfigController extends Controller {
@@ -23,11 +25,10 @@ class DefaultConfigController extends Controller {
         try {
             $courseId = $request->query("courseId");
             $data = $this->defaultConfigService->getByCourseId($courseId);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());
-
         }
 
     }
@@ -38,9 +39,9 @@ class DefaultConfigController extends Controller {
             $course = $request->input("course");
             $defaultConfig = $request->input("dedaultConfig");
             $this->courseService->update($course);
-            $this->defaultConfigService->update($defaultConfig);
+            $res = $this->defaultConfigService->update($defaultConfig);
             DB::commit();
-            return response()->json();
+            return AppResponse::successResp($res);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());

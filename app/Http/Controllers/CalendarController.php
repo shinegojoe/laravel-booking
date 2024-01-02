@@ -11,8 +11,8 @@ use Illuminate\Http\Request;
 use App\Utils\ErrorResponseHelper;
 use App\Utils\JWTHelper;
 use App\Models\XXX;
-
 use App\Utils\BodyHelper;
+use App\Utils\AppResponse;
 
 
 class CalendarController extends Controller
@@ -36,7 +36,13 @@ class CalendarController extends Controller
             $body = $request->input();
             $body = BodyHelper::toSnake($body);
             $res = XXX::create($body);
-            return response()->json($res);
+            
+            // return response()->json($res->toArray());
+            // return response()->json($res, 200, [], JSON_FORCE_OBJECT | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+            $resp = AppResponse::successResp($res);
+            return $resp;
+            // return response()->json($res);
             // $msg = "xx123";
             // // $data["res"] = "ok";
             // $payload = array("data" => "xx123", "exp" => 123);

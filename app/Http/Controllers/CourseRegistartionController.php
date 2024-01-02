@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Exceptions\GlobalException;
 use Exception;
+use App\Utils\AppResponse;
+
 class CourseRegistartionController extends Controller {
 
     private CourseRegistrationService $courseRegistrationService;
@@ -18,7 +20,7 @@ class CourseRegistartionController extends Controller {
             $courseId = $request->input("courseId");
             $uId = $request->input("uId");
             $data = $this->courseRegistrationService->getByUIdAndCourseId($uId, $courseId);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());
@@ -30,7 +32,7 @@ class CourseRegistartionController extends Controller {
         try {
             $uId = $request->input("uId");
             $data = $this->courseRegistrationService->listByUId($uId);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());
@@ -42,7 +44,7 @@ class CourseRegistartionController extends Controller {
         try {
             $uId = $request->input("uId");
             $data = $this->courseRegistrationService->listByUId($uId);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());

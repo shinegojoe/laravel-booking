@@ -8,6 +8,8 @@ use App\Http\Services\PaymentHistoryService;
 use App\Http\Services\CourseRegistrationService;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\GlobalException;
+use App\Utils\AppResponse;
+use App\Utils\ErrorCode;
 
 
 class PaymentHistoryController extends Controller {
@@ -28,25 +30,20 @@ class PaymentHistoryController extends Controller {
             $res = $this->paymentHistoryService->create($x);
             $res = $this->courseRegistrationService->getByUIdAndCourseId($uId, $courseId);
 
-            // $a = 1 / 0;
             if($res) {
-                // $res = $x;
                 $newPoint = $res["point"] + $point;
-                $this->courseRegistrationService->updatePoint($courseId, $uId, $newPoint);
+                $res = $this->courseRegistrationService->updatePoint($courseId, $uId, $newPoint);
                 DB::commit();
-
+                return AppResponse::successResp($res);
             } else {
                 DB::rollBack();
+                return AppResponse::errorResp(ErrorCode::NOT_FOUND, "course not found");
             }
 
 
-
-            return response()->json($res);
-
         } catch(Exception $e) {
+            DB::rollBack();
             throw new GlobalException($e->getMessage());
-
-
         } 
 
     }
@@ -55,7 +52,7 @@ class PaymentHistoryController extends Controller {
         try {
             $body = $request->input();
             $this->paymentHistoryService->update($body["id"], $body);
-            return response()->json($body);
+            return AppResponse::successResp($body);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());
@@ -69,7 +66,7 @@ class PaymentHistoryController extends Controller {
             $courseId = $request->input("courseId");
             $uId = $request->input("uId");
             $data = $this->paymentHistoryService->listByCourseIdAndUId($courseId, $uId);
-            return response()->json($data);
+            return AppResponse::successResp($data);
 
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());

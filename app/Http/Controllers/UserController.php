@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\GlobalException;
+use App\Utils\AppResponse;
 
 
 class UserController extends Controller {
@@ -23,10 +24,7 @@ class UserController extends Controller {
     public function listByCourseId(Request $req) {
         $courseId = $req->query("courseId");
         $res = $this->userService->listByCourseId($courseId);
-        // $body["res"] = "test";
-        // $body["id"] = $courseId;
-        return response()->json($res, 200);
-
+        return AppResponse::successResp($res);
     }
 
 
@@ -40,7 +38,8 @@ class UserController extends Controller {
             $userVO->user = $user;
             $userVO->userConfig = $userConfig;
             Log::info($userConfig);
-            return response()->json($userVO, 200);
+            return AppResponse::successResp($userVO);
+
         } catch(Exception $e) {
             throw new GlobalException($e->getMessage());
 
